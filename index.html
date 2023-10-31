@@ -312,14 +312,14 @@
 						<div class="row links-wrap">
 							<div class="col-6 col-sm-6 col-md-3">
 								<ul class="list-unstyled">
-									<li><a href="#">Livros</a></li>									
-									<li><a href="#">Contato</a></li>
+									<li><a href="shop.html">Livros</a></li>									
+									<li><a href="contact.html">Contato</a></li>
 								</ul>
 							</div>
 
 							<div class="col-6 col-sm-6 col-md-3">
 								<ul class="list-unstyled">
-									<li><a href="#">Suporte</a></li>
+									<li><a href="contact.html">Suporte</a></li>
 									
 								</ul>
 							</div>
@@ -358,15 +358,12 @@
 		<!-- End Footer Section -->	
 
 
-		<script src="js/bootstrap.bundle.min.js"></script>
-		<script src="js/tiny-slider.js"></script>
-		<script src="js/custom.js"></script>
+		  <script src="js/bootstrap.bundle.min.js" loading="lazy"></script>
+		  <script src="js/tiny-slider.js" loading="lazy"></script>
+		  <script src="js/custom.js" loading="lazy"></script>
+		  <script>
 
-		<script src="js/bootstrap.bundle.min.js"></script>
-		<script src="js/tiny-slider.js"></script>
-		<script src="js/custom.js"></script>
 
-		<script>
 		  // Realize a requisição GET à API
 		  fetch("https://folheandobooksgateway.azurewebsites.net/api/v1/Product/all-products")
 			.then(response => response.json())
@@ -511,7 +508,40 @@
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
-		</script>
-	</body>
+	
+  // Verifica se há um token no localStorage
+  const token = localStorage.getItem("token");
 
+if (token) {
+  // Decodifique o token e obtenha o nome do usuário
+  const decodedToken = decodeToken(token);
+  const userName = decodedToken.FirstName + ' ' + decodedToken.LastName;
+
+  // Encontre o elemento do ícone de usuário
+  const userIcon = document.querySelector('.custom-navbar-cta a[href="login.html"] img');
+
+  if (userIcon) {
+    // Verifique se o elemento do ícone de usuário existe
+    // Substitua a imagem pelo texto userName
+    userIcon.remove(); // Remova a imagem original
+    const userLink = document.querySelector('.custom-navbar-cta a[href="login.html"]');
+    userLink.textContent = userName; // Defina o texto como o nome do usuário
+	userLink.style.color = "#7F7F7F";
+  }
+}
+
+// Função para decodificar um token JWT (apenas um exemplo)
+function decodeToken(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64));
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Erro ao decodificar o token: " + error);
+    return null;
+  }
+}
+  </script>
+</body>
 </html>
